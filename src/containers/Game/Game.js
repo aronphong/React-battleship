@@ -67,13 +67,16 @@ class Game extends Component {
     // lift state up a level
     handleAttackPosition = (index) => {
         const currentBoard = [...this.state.cells];
+            if (currentBoard.every(cell => cell === '') === true) {
+                return;
+            };
+            
         let ships = this.state.ships.slice();
         let currentCellValue = currentBoard[index];
 
         if (currentCellValue === "") {
             currentBoard[index] = "M";
         };
-
         if (currentCellValue === "X" || currentCellValue === "M") {
             return console.log('Cell already hit!');
         }
@@ -98,21 +101,16 @@ class Game extends Component {
 
     render() {
         const player = this.props.isPc ? <h1>Computer Board</h1> : <h1>Your Board</h1>;
-        let gameBoard;
 
-        if (this.state.cells.every(cell => cell === "") === true) {
-            gameBoard = <Board cells={this.state.cells}/>
-        } else {
-            gameBoard = <Board
-            cells={this.state.cells}
-            attackPosition={this.handleAttackPosition}
-            />
-        };
-
-        return(
+        // fix logic for buttons to hide when game is on going 
+        // fix logic that board has no event listeners when 
+        return (
             <div className={styles.Game}>
                 {player}
-                {gameBoard}
+                <Board
+                cells={this.state.cells}
+                attackPosition={this.handleAttackPosition}
+                />
                 <button onClick={this.shipsPlacement}>Place Ships</button>
                 <button onClick={this.resetBoard}>Reset Board</button>
             </div>

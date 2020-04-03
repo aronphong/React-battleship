@@ -1,0 +1,15 @@
+.BoardCell {
+    border: 1px solid black;
+    padding: 6px;
+    box-sizing: border-box;
+    background-color: pink;
+    text-align: center;
+}
+
+.hit {
+    background-color: rgb(246, 139, 139);
+}
+
+.miss {
+    background-color: lightgray;
+}

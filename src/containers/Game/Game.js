@@ -67,6 +67,8 @@ class Game extends Component {
     // lift state up a level
     handleAttackPosition = (index) => {
         const currentBoard = [...this.state.cells];
+
+            // check for clean board
             if (currentBoard.every(cell => cell === '') === true) {
                 return;
             };
@@ -103,12 +105,12 @@ class Game extends Component {
         const player = this.props.isPc ? <h1>Computer Board</h1> : <h1>Your Board</h1>;
 
         // fix logic for buttons to hide when game is on going 
-        // fix logic that board has no event listeners when 
         return (
             <div className={styles.Game}>
                 {player}
                 <Board
                 cells={this.state.cells}
+                computerPlayer={this.props.isPc}
                 attackPosition={this.handleAttackPosition}
                 />
                 <button onClick={this.shipsPlacement}>Place Ships</button>

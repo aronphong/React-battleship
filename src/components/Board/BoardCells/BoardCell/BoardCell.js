@@ -3,7 +3,11 @@ import styles from './BoardCell.module.css';
 
 // assign color to text if hit or miss
 const boardCell = (props) => {
+
     let classes = [styles.BoardCell];
+    if (props.computerPlayer === true) {
+        classes.push(styles.pc);
+    }
     if (props.content === "X") {
         classes.push(styles.hit);
     }

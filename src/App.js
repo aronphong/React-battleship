@@ -13,8 +13,8 @@ class App extends Component {
     return (
       <React.Fragment>
       <Layout>
-        <Game isPc={false}/>
-        <Game isPc={true}/>
+        <Game isPc={false} turn={this.state.humanTurn}/>
+        <Game isPc={true} turn={this.state.humanTurn}/>
       </Layout>
       </React.Fragment>
 

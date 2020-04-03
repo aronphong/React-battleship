@@ -8,8 +8,14 @@
 
 .hit {
     background-color: rgb(246, 139, 139);
+    color: black !important;
 }
 
 .miss {
     background-color: lightgray;
+    color: black !important;
+}
+
+.pc {
+    color: transparent;
 }

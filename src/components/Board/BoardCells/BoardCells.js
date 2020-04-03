@@ -4,12 +4,12 @@ import styles from './BoardCells.module.css';
 
 const boardCells = (props) => {
 
-
     return (
         <div className={styles.BoardCells}>
             {props.cells.map((cell, index) => {
                 return (
                     <BoardCell
+                    computerPlayer={props.computerPlayer}
                     content={cell}
                     index={index} 
                     key={index}

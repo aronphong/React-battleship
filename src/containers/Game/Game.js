@@ -15,6 +15,7 @@ class Game extends Component {
     state = {
         cells: Array(100).fill(''),
         whosTurn: this.props.humanTurn,
+        attackHistory: [],
         ships: [
             {
                 name: 'Carrier',
@@ -94,11 +95,18 @@ class Game extends Component {
             }
             return ship;
         });
-    
+
         this.setState({
             cells: currentBoard,
             ships: ships
         });
+        this.handleAttackHistory(index);
+    }
+
+    handleAttackHistory = (index) => {
+        let currentAttackHistory = this.state.attackHistory.slice();
+        currentAttackHistory.push(index);
+        this.setState({attackHistory: currentAttackHistory})
     }
 
     render() {

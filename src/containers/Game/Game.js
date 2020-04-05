@@ -50,10 +50,23 @@ class Game extends Component {
         ]
     };
 
+    componentDidUpdate(prevProps) {
+        if (this.props.humanTurn !== prevProps.humanTurn) {
+            if (this.props.humanTurn === false && this.props.computerBoard === false) {
+                const randomIndex = this.handleComputerAttack();
+                this.handleAttackPosition(randomIndex);
+            }
+            
+        }
+    }
     // can change to reset placement if wanted
     shipsPlacement = () => {
+        if (this.props.shipsPlaced) {
+            return;
+        }
+
         const board = [...this.state.cells];
-        if (board.every(cell => cell !== '') === true) {
+        if (board.every(cell => cell === '') === false) {
             return;
         };
         const shipBoard = placeShips(board, SHIPS);
@@ -64,19 +77,27 @@ class Game extends Component {
         this.setState({cells: Array(100).fill('')})
     }
 
+    handleComputerAttack = () => {
+        let currentAttackHistory = this.state.attackHistory;
+        let randomMove = Math.floor(Math.random() * 100);
+        while (currentAttackHistory.includes(randomMove)) {
+            randomMove = Math.floor(Math.random() * 100);
+        }
+
+        // this.handleAttackPosition(randomMove);
+        return randomMove;
+    }
+
     // if you make a move switch turns
     // lift state up a level
     handleAttackPosition = (index) => {
+
         const currentBoard = [...this.state.cells];
+        if (currentBoard.every(cell => cell === '') === true) {
+            return;
+        };
 
-            // check for clean board
-            if (currentBoard.every(cell => cell === '') === true) {
-                return;
-            };
-            
-        let ships = this.state.ships.slice();
         let currentCellValue = currentBoard[index];
-
         if (currentCellValue === "") {
             currentBoard[index] = "M";
         };
@@ -84,6 +105,7 @@ class Game extends Component {
             return console.log('Cell already hit!');
         }
 
+        let ships = this.state.ships.slice();
         ships.map(ship => {
             if (ship.shipSymbol === currentCellValue) {
                 ship.life--;
@@ -96,11 +118,12 @@ class Game extends Component {
             return ship;
         });
 
+        this.handleAttackHistory(index);
+        this.props.turnSwitch();
         this.setState({
             cells: currentBoard,
             ships: ships
         });
-        this.handleAttackHistory(index);
     }
 
     handleAttackHistory = (index) => {
@@ -110,15 +133,13 @@ class Game extends Component {
     }
 
     render() {
-        const player = this.props.isPc ? <h1>Computer Board</h1> : <h1>Your Board</h1>;
-
-        // fix logic for buttons to hide when game is on going 
+        const player = this.props.computerBoard ? <h1>Computer Board</h1> : <h1>Your Board</h1>;
         return (
             <div className={styles.Game}>
                 {player}
                 <Board
                 cells={this.state.cells}
-                computerPlayer={this.props.isPc}
+                computerPlayer={this.props.computerBoard}
                 attackPosition={this.handleAttackPosition}
                 />
                 <button onClick={this.shipsPlacement}>Place Ships</button>

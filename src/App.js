@@ -6,18 +6,31 @@ class App extends Component {
   state = {
     gameStart: false,
     humanTurn: true,
+    shipsPlaced: false
   };
 
-  // turn false will disable abiliity to click
+  handleGameTurn = () => {
+    this.setState({humanTurn: !this.state.humanTurn})
+  }
+
   render() {
     return (
-      <React.Fragment>
       <Layout>
-        <Game isPc={false} turn={this.state.humanTurn}/>
-        <Game isPc={true} turn={this.state.humanTurn}/>
+        <Game
+          gameStart = {this.state.gameStart} 
+          computerBoard={false}
+          shipsPlaced={this.state.shipsPlaced} 
+          humanTurn={this.state.humanTurn}
+          turnSwitch={this.handleGameTurn}
+        />
+        <Game
+          gameStart = {this.state.gameStart}  
+          computerBoard={true} 
+          humanTurn={this.state.humanTurn}
+          turnSwitch={this.handleGameTurn}
+          
+        />
       </Layout>
-      </React.Fragment>
-
     );
   }
 }

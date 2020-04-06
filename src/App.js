@@ -6,7 +6,8 @@ class App extends Component {
   state = {
     gameStart: false,
     humanTurn: true,
-    shipsPlaced: false
+    shipsPlaced: false,
+    computerDifficulty: 'medium'
   };
 
   handleGameTurn = () => {
@@ -22,6 +23,7 @@ class App extends Component {
           shipsPlaced={this.state.shipsPlaced} 
           humanTurn={this.state.humanTurn}
           turnSwitch={this.handleGameTurn}
+          difficulty={this.state.computerDifficulty}
         />
         <Game
           gameStart = {this.state.gameStart}  

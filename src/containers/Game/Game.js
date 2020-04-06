@@ -56,7 +56,6 @@ class Game extends Component {
                 const randomIndex = this.handleComputerAttack();
                 this.handleAttackPosition(randomIndex);
             }
-            
         }
     }
     // can change to reset placement if wanted
@@ -76,15 +75,64 @@ class Game extends Component {
     resetBoard = () => {
         this.setState({cells: Array(100).fill('')})
     }
-
+    
+    // if difficulty set to hard,
+    // if latest move was an X, next move will be around the area else random
     handleComputerAttack = () => {
-        let currentAttackHistory = this.state.attackHistory;
-        let randomMove = Math.floor(Math.random() * 100);
-        while (currentAttackHistory.includes(randomMove)) {
-            randomMove = Math.floor(Math.random() * 100);
+        let currentAttackHistory = this.state.attackHistory.slice().reverse();
+        let historyLength = currentAttackHistory.length;
+        let latestHitIndex;
+        let arrHistory = currentAttackHistory.map(move => move[0]);
+
+        if (this.props.difficulty === 'medium') {
+            for (let i = 0; i < 4; i++) {
+                try {
+                    if (currentAttackHistory[i][1] === 'X') {
+                        latestHitIndex = currentAttackHistory[i][0];
+                        break;
+                    }
+                } catch {
+                    continue;
+                }
+                
+            }
+
+            if (latestHitIndex) {
+                
+                // 0 left, 1 up, 2 right, 3 down
+                let randomDirection = Math.floor(Math.random() * 4); 
+                let nextMove = latestHitIndex;
+                if (randomDirection === 1) {
+                    nextMove--;
+                } else if (randomDirection === 2) {
+                    nextMove = nextMove - 10;
+                } else if (randomDirection === 3) {
+                    nextMove++;
+                } else if (randomDirection === 4) {
+                    nextMove = nextMove + 10;
+                }
+
+                while (arrHistory.includes(nextMove)) {
+                    randomDirection = Math.floor(Math.random() * 4);
+                    if (randomDirection === 1) {
+                        nextMove--;
+                    } else if (randomDirection === 2) {
+                        nextMove = nextMove - 10;
+                    } else if (randomDirection === 3) {
+                        nextMove++;
+                    } else if (randomDirection === 4) {
+                        nextMove = nextMove + 10;
+                    } 
+                }
+                return nextMove;
+            }
         }
 
-        // this.handleAttackPosition(randomMove);
+        // fix logic check
+        let randomMove = Math.floor(Math.random() * 100);
+        while (arrHistory.includes(randomMove)) {
+            randomMove = Math.floor(Math.random() * 100);
+        }
         return randomMove;
     }
 
@@ -118,7 +166,7 @@ class Game extends Component {
             return ship;
         });
 
-        this.handleAttackHistory(index);
+        this.handleAttackHistory(index, currentBoard[index]);
         this.props.turnSwitch();
         this.setState({
             cells: currentBoard,
@@ -126,9 +174,9 @@ class Game extends Component {
         });
     }
 
-    handleAttackHistory = (index) => {
+    handleAttackHistory = (index, result) => {
         let currentAttackHistory = this.state.attackHistory.slice();
-        currentAttackHistory.push(index);
+        currentAttackHistory.push([index, result]);
         this.setState({attackHistory: currentAttackHistory})
     }
 

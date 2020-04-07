@@ -150,6 +150,9 @@ class Game extends Component {
     // if you make a move switch turns
     // lift state up a level
     handleAttackPosition = (index) => {
+        if (this.props.computerBoard === false && this.props.humanTurn === true) {
+            return
+        };
 
         const currentBoard = [...this.state.cells];
         if (currentBoard.every(cell => cell === '') === true) {

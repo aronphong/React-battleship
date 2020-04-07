@@ -8,7 +8,7 @@ class App extends Component {
     gameStart: false,
     humanTurn: true,
     shipsPlaced: false,
-    computerDifficulty: 'medium'
+    computerDifficulty: 'easy'
   };
 
   handleGameTurn = () => {
@@ -19,13 +19,18 @@ class App extends Component {
     this.setState({gameStart: true})
   }
 
+  handleComputerDifficulty = () => {
+    const difficulty = this.state.computerDifficulty === 'easy' ? 'medium' : 'easy';
+    this.setState({computerDifficulty: difficulty})
+  }
+
   render() {
     return (
       <div className={styles.App}>
         <div className={styles.Head}>
           <button onClick={this.handleGameStart}>Play</button>
           <h1>Battleship</h1>
-          <button>Difficulty: {this.state.computerDifficulty}</button>
+          <button onClick={this.handleComputerDifficulty}>Difficulty: {this.state.computerDifficulty}</button>
         </div>
 
         <Layout>

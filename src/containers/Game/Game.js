@@ -50,20 +50,22 @@ class Game extends Component {
         ]
     };
 
-    shouldComponentUpdate(nextProps) {
-        if (nextProps.gameStart === true) {
-            this.shipsPlacement();
-            return true;
-        }
-    }
-
     componentDidUpdate(prevProps) {
+        if (this.props.gameStart !== prevProps.gameStart) {
+            if (this.props.gameStart === true) {
+                this.shipsPlacement();
+            } else {
+                this.resetBoard();
+            }
+            
+        };
+
         if (this.props.humanTurn !== prevProps.humanTurn) {
             if (this.props.humanTurn === false && this.props.computerBoard === false) {
                 const randomIndex = this.handleComputerAttack();
                 this.handleAttackPosition(randomIndex);
-            }
-        }
+            };
+        };
     }
     // can change to reset placement if wanted
     shipsPlacement = () => {

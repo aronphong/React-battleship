@@ -19,6 +19,10 @@ class App extends Component {
   }
 
   handleComputerDifficulty = () => {
+    if (this.state.gameStart === true) {
+      return;
+    };
+    
     const difficulty = this.state.computerDifficulty === 'easy' ? 'medium' : 'easy';
     this.setState({computerDifficulty: difficulty})
   }

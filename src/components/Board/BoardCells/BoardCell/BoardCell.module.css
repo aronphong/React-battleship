@@ -2,17 +2,21 @@
     border: 1px solid black;
     padding: 6px;
     box-sizing: border-box;
-    background-color: pink;
+    background-color: #78C1CE;
+    color: #1b1b1e;
     text-align: center;
+}
+.BoardCell:hover {
+    background-color: #477998;
 }
 
 .hit {
-    background-color: rgb(246, 139, 139);
+    background-color: #F64740 !important;
     color: black !important;
 }
 
 .miss {
-    background-color: lightgray;
+    background-color: #E1E5F2 !important;
     color: black !important;
 }
 

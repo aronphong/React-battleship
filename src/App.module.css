@@ -1,4 +1,6 @@
 .App {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: #FDFAFF;
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -24,9 +26,9 @@
     padding: 4px;
     border: 1px solid black;
     border-radius: 4px;
-    background-color: lightgreen;
+    background-color: #BCC4DB;
 }
 
 .Head button:hover {
-    background-color: lightpink;
+    background-color: #7880B5;
 }

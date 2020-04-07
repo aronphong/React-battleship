@@ -67,6 +67,7 @@ class Game extends Component {
             };
         };
     }
+
     // can change to reset placement if wanted
     shipsPlacement = () => {
         if (this.props.gameStart === false) {
@@ -85,13 +86,11 @@ class Game extends Component {
         this.setState({cells: Array(100).fill('')})
     }
     
-    // if difficulty set to medium/hard,
-    // if latest move was an X, next move will be around the area else random
     handleComputerAttack = () => {
         let currentAttackHistory = this.state.attackHistory.slice().reverse();
         let latestHitIndex = false;
         let arrHistory = currentAttackHistory.map(move => move[0]);
-        console.log(currentAttackHistory);
+
         if (this.props.difficulty === 'medium') {
             for (let i = 0; i < 4; i++) {
                 try {
@@ -105,43 +104,47 @@ class Game extends Component {
             };
 
             if (latestHitIndex) {
-                // 0 left, 1 up, 2 right, 3 down
                 let randomDirection = Math.floor(Math.random() * 4); 
                 let nextMove = latestHitIndex;
-                if (randomDirection === 1) {
+                if (randomDirection === 0) {
                     nextMove--;
-                } else if (randomDirection === 2) {
+                } else if (randomDirection === 1) {
                     nextMove = nextMove - 10;
-                } else if (randomDirection === 3) {
+                } else if (randomDirection === 2) {
                     nextMove++;
-                } else if (randomDirection === 4) {
+                } else if (randomDirection === 3) {
                     nextMove = nextMove + 10;
                 };
 
+                // generate new move if nextMove already hit cell
                 let counter = 0;
                 while (arrHistory.includes(nextMove)) {
                     randomDirection = Math.floor(Math.random() * 4);
                     nextMove = latestHitIndex;
-                    if (randomDirection === 1) {
+                    if (randomDirection === 0) {
                         nextMove--;
-                    } else if (randomDirection === 2) {
+                    } else if (randomDirection === 1) {
                         nextMove = nextMove - 10;
-                    } else if (randomDirection === 3) {
+                    } else if (randomDirection === 2) {
                         nextMove++;
-                    } else if (randomDirection === 4) {
+                    } else if (randomDirection === 3) {
                         nextMove = nextMove + 10;
                     };
                     
-                    if (counter >= 4) {
-                        nextMove = Math.floor(Math.random() * 100);
+                    // if all nextMoves already hit, generate new random move
+                    if (arrHistory.includes(nextMove)) {
+                        counter++;
                     };
-                    counter++;
+                    if (counter > 4)  {
+                        nextMove = Math.floor(Math.random() * 100);
+                    }
+                    
                 };
                 return nextMove;
             };
         }
 
-        // fix logic check
+        // fix logic check / edge cases
         let randomMove = Math.floor(Math.random() * 100);
         while (arrHistory.includes(randomMove)) {
             randomMove = Math.floor(Math.random() * 100);
@@ -149,8 +152,6 @@ class Game extends Component {
         return randomMove;
     }
 
-    // if you make a move switch turns
-    // lift state up a level
     handleAttackPosition = (index) => {
         if (this.props.computerBoard === false && this.props.humanTurn === true) {
             return

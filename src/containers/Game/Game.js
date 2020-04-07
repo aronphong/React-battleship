@@ -50,6 +50,13 @@ class Game extends Component {
         ]
     };
 
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.gameStart === true) {
+            this.shipsPlacement();
+            return true;
+        }
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.humanTurn !== prevProps.humanTurn) {
             if (this.props.humanTurn === false && this.props.computerBoard === false) {
@@ -122,10 +129,11 @@ class Game extends Component {
                     } else if (randomDirection === 4) {
                         nextMove = nextMove + 10;
                     };
-                    counter++;
-                    if (counter >= 3) {
+                    
+                    if (counter >= 4) {
                         nextMove = Math.floor(Math.random() * 100);
                     };
+                    counter++;
                 };
                 return nextMove;
             };
@@ -195,8 +203,8 @@ class Game extends Component {
                 computerPlayer={this.props.computerBoard}
                 attackPosition={this.handleAttackPosition}
                 />
-                <button onClick={this.shipsPlacement}>Place Ships</button>
-                <button onClick={this.resetBoard}>Reset Board</button>
+                {/* <button onClick={this.shipsPlacement}>Place Ships</button> */}
+                {/* <button onClick={this.resetBoard}>Reset Board</button> */}
             </div>
         );
     }

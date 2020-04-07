@@ -67,7 +67,7 @@ class Game extends Component {
     }
     // can change to reset placement if wanted
     shipsPlacement = () => {
-        if (this.props.shipsPlaced) {
+        if (this.props.gameStart === false) {
             return;
         }
 

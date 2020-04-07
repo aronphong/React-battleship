@@ -7,7 +7,6 @@ class App extends Component {
   state = {
     gameStart: false,
     humanTurn: true,
-    shipsPlaced: false,
     computerDifficulty: 'easy'
   };
 
@@ -37,7 +36,6 @@ class App extends Component {
           <Game
             gameStart = {this.state.gameStart} 
             computerBoard={false}
-            shipsPlaced={this.state.shipsPlaced} 
             humanTurn={this.state.humanTurn}
             turnSwitch={this.handleGameTurn}
             difficulty={this.state.computerDifficulty}

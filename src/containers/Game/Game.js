@@ -104,44 +104,34 @@ class Game extends Component {
             };
 
             if (latestHitIndex) {
-                let randomDirection = Math.floor(Math.random() * 4); 
-                let nextMove = latestHitIndex;
-                if (randomDirection === 0) {
-                    nextMove--;
-                } else if (randomDirection === 1) {
-                    nextMove = nextMove - 10;
-                } else if (randomDirection === 2) {
-                    nextMove++;
-                } else if (randomDirection === 3) {
-                    nextMove = nextMove + 10;
-                };
+                // shuffle directions arr
+                let directions = ['left', 'up', 'right', 'down'];
+                for (let i = directions.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [directions[i], directions[j]] = [directions[j], directions[i]];
+                }
 
-                // generate new move if nextMove already hit cell
+                let nextMove = latestHitIndex;
                 let counter = 0;
+
                 while (arrHistory.includes(nextMove)) {
-                    randomDirection = Math.floor(Math.random() * 4);
                     nextMove = latestHitIndex;
-                    if (randomDirection === 0) {
-                        nextMove--;
-                    } else if (randomDirection === 1) {
-                        nextMove = nextMove - 10;
-                    } else if (randomDirection === 2) {
-                        nextMove++;
-                    } else if (randomDirection === 3) {
-                        nextMove = nextMove + 10;
-                    };
-                    
-                    // if all nextMoves already hit, generate new random move
-                    if (arrHistory.includes(nextMove)) {
-                        counter++;
-                    };
-                    if (counter > 4)  {
+                    if (directions[counter] === 'left') {
+                        nextMove-= 1;
+                    } else if (directions[counter] === 'up') {
+                        nextMove-= 10;
+                    } else if (directions[counter] === 'right') {
+                        nextMove+= 1;
+                    } else if (directions[counter] === 'down') {
+                        nextMove+= 10;
+                    } else {
+                        console.log('over counter', counter)
                         nextMove = Math.floor(Math.random() * 100);
                     }
-                    
-                };
+                    counter++;
+                }; 
                 return nextMove;
-            };
+            }
         }
 
         // fix logic check / edge cases
@@ -201,16 +191,27 @@ class Game extends Component {
 
     render() {
         const player = this.props.computerBoard ? <h1>Computer Board</h1> : <h1>Your Board</h1>;
+
+        let shipsRemain = null;
+        if (this.props.gameStart) {
+            shipsRemain = this.state.ships.slice().map(ship => {
+                return <li key={ship.name}>{ship.name}</li>
+            });
+        };
+        
         return (
             <div className={styles.Game}>
-                {player}
+                <div className={styles.Messages}>
+                    {player}
+                    <ul>
+                        {shipsRemain}
+                    </ul>
+                </div>
                 <Board
                 cells={this.state.cells}
                 computerPlayer={this.props.computerBoard}
                 attackPosition={this.handleAttackPosition}
                 />
-                {/* <button onClick={this.shipsPlacement}>Place Ships</button> */}
-                {/* <button onClick={this.resetBoard}>Reset Board</button> */}
             </div>
         );
     }

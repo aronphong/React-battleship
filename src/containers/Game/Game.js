@@ -125,7 +125,10 @@ class Game extends Component {
                     } else if (directions[counter] === 'down') {
                         nextMove+= 10;
                     } else {
-                        console.log('over counter', counter)
+                        nextMove = Math.floor(Math.random() * 100);
+                    }
+
+                    if (nextMove < 0 || nextMove > 99) {
                         nextMove = Math.floor(Math.random() * 100);
                     }
                     counter++;

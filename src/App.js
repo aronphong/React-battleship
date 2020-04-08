@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   handleGameStart = () => {
-    this.setState({gameStart: true})
+    this.setState({gameStart: !this.state.gameStart})
   }
 
   handleComputerDifficulty = () => {
@@ -28,15 +28,22 @@ class App extends Component {
   }
 
   render() {
+    const play = this.state.gameStart ? 'Reset Board' : 'Start Game'
     return (
       <div className={styles.App}>
         <div className={styles.Head}>
-          <button onClick={this.handleGameStart}>Play</button>
+          <button onClick={this.handleGameStart}>{play}</button>
           <h1>Battleship</h1>
           <button onClick={this.handleComputerDifficulty}>Difficulty: {this.state.computerDifficulty}</button>
         </div>
 
         <Layout>
+        <Game
+            gameStart = {this.state.gameStart}  
+            computerBoard={true} 
+            humanTurn={this.state.humanTurn}
+            turnSwitch={this.handleGameTurn}
+          />
           <Game
             gameStart = {this.state.gameStart} 
             computerBoard={false}
@@ -44,12 +51,7 @@ class App extends Component {
             turnSwitch={this.handleGameTurn}
             difficulty={this.state.computerDifficulty}
           />
-          <Game
-            gameStart = {this.state.gameStart}  
-            computerBoard={true} 
-            humanTurn={this.state.humanTurn}
-            turnSwitch={this.handleGameTurn}
-          />
+          
         </Layout>
       </div>
     );

@@ -160,7 +160,7 @@ class Game extends Component {
             currentBoard[index] = "M";
         };
         if (currentCellValue === "X" || currentCellValue === "M") {
-            return console.log('Cell already hit!');
+            return;
         }
 
         let ships = this.state.ships.slice();
@@ -171,7 +171,6 @@ class Game extends Component {
                 if (ship.life === 0) {
                     ship.isSunk = true;
                     shipSunk = true;
-                    console.log(ship.name + ' is destroyed!')
                 }
                 currentBoard[index] = "X";
             }
@@ -198,7 +197,10 @@ class Game extends Component {
         let shipsRemain = null;
         if (this.props.gameStart) {
             shipsRemain = this.state.ships.slice().map(ship => {
-                return <li key={ship.name}>{ship.name}</li>
+                return <li 
+                        key={ship.name} 
+                        className={ship.isSunk ? styles.sunk : null}>
+                            {ship.name}</li>
             });
         };
         

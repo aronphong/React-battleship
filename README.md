@@ -1,3 +1,18 @@
+# React Battleship App
+
+This app uses React and the concepts of Test Driven Development to create a game of battleship against a computer!
+
+## Things I learned
+* Fundamentals of Test Driven Development
+* Managing state and having separate component logic
+* Learning how to structure components to maximize reuseability 
+
+## Things to do
+* Create display for winner
+* 2 Human Player ability
+* Styling
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

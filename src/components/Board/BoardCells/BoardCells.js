@@ -4,6 +4,10 @@ import styles from './BoardCells.module.css';
 
 const boardCells = (props) => {
 
+    if (props.cells === undefined) {
+        return <div className={styles.BoardCells}></div>;
+    }
+
     return (
         <div className={styles.BoardCells}>
             {props.cells.map((cell, index) => {
@@ -13,7 +17,6 @@ const boardCells = (props) => {
                     content={cell}
                     index={index} 
                     key={index}
-                    // clicked={() => console.log(index, cell)}
                     clicked={props.attackPosition}
                 />
                 );

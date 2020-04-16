@@ -19,7 +19,7 @@ const boardCell = (props) => {
         <div 
         className={classes.join(' ')}
         onClick={() => props.clicked(props.index)}
-        data-index={props.index}
+        // data-index={props.index}
         >
             {props.content}
         </div>

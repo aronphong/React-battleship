@@ -11,6 +11,8 @@ const SHIPS = [
     {name: 'Patrol', length: 2, shipSymbol: 'P'},
 ];
 
+
+
 class Game extends Component {
     state = {
         cells: Array(100).fill(''),
@@ -50,17 +52,20 @@ class Game extends Component {
         ]
     };
 
+    baseState = JSON.parse(JSON.stringify(this.state));
+
     componentDidUpdate(prevProps) {
         if (this.props.gameStart !== prevProps.gameStart) {
             if (this.props.gameStart === true) {
                 this.shipsPlacement();
-            } else {
-                this.resetBoard();
             }
-            
+            if (this.props.gameStart === false) {
+                this.resetBoard();
+            };
         };
 
         if (this.props.humanTurn !== prevProps.humanTurn) {
+            // this.handleWinCheck();
             if (this.props.humanTurn === false && this.props.computerBoard === false) {
                 const randomIndex = this.handleComputerAttack();
                 this.handleAttackPosition(randomIndex);
@@ -83,7 +88,7 @@ class Game extends Component {
     }
 
     resetBoard = () => {
-        this.setState({cells: Array(100).fill('')})
+        this.setState(this.baseState)
     }
     
     handleComputerAttack = () => {
@@ -176,7 +181,6 @@ class Game extends Component {
             }
             return ship;
         });
-
         this.handleAttackHistory(index, currentBoard[index], shipSunk);
         this.props.turnSwitch();
         this.setState({
@@ -191,16 +195,28 @@ class Game extends Component {
         this.setState({attackHistory: currentAttackHistory})
     }
 
+    handleWinCheck = () => {
+        const ships = this.state.ships.slice();
+        const shipsSunk = ships.every(ship => {
+            return ship.isSunk === true;
+        });
+        if (shipsSunk) {
+            const winner = this.props.computerBoard ? 'You Win!' : 'Computer Wins'
+            return this.props.win(winner);
+        }
+    }
+
     render() {
         const player = this.props.computerBoard ? <h1>Computer Board</h1> : <h1>Your Board</h1>;
 
-        let shipsRemain = null;
+        let shipsRemaining = null;
         if (this.props.gameStart) {
-            shipsRemain = this.state.ships.slice().map(ship => {
+            shipsRemaining = this.state.ships.slice().map(ship => {
                 return <li 
                         key={ship.name} 
-                        className={ship.isSunk ? styles.sunk : null}>
-                            {ship.name}</li>
+                        className={ship.isSunk ? styles.sunk : null}
+                        >
+                        {ship.name}</li>
             });
         };
         
@@ -209,7 +225,7 @@ class Game extends Component {
                 <div className={styles.Messages}>
                     {player}
                     <ul>
-                        {shipsRemain}
+                        {shipsRemaining}
                     </ul>
                 </div>
                 <Board

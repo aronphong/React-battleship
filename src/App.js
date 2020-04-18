@@ -28,6 +28,7 @@ class App extends Component {
   }
 
   handleGameWin = (winner) => {
+    alert(winner);
     this.setState({gameStart: false});
   }
 

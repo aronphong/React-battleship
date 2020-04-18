@@ -58,14 +58,13 @@ class Game extends Component {
         if (this.props.gameStart !== prevProps.gameStart) {
             if (this.props.gameStart === true) {
                 this.shipsPlacement();
-            }
+            } 
             if (this.props.gameStart === false) {
-                this.resetBoard();
-            };
+                return this.resetBoard();
+            }
         };
 
         if (this.props.humanTurn !== prevProps.humanTurn) {
-            // this.handleWinCheck();
             if (this.props.humanTurn === false && this.props.computerBoard === false) {
                 const randomIndex = this.handleComputerAttack();
                 this.handleAttackPosition(randomIndex);
@@ -181,6 +180,7 @@ class Game extends Component {
             }
             return ship;
         });
+        this.handleWinCheck();
         this.handleAttackHistory(index, currentBoard[index], shipSunk);
         this.props.turnSwitch();
         this.setState({
@@ -201,7 +201,7 @@ class Game extends Component {
             return ship.isSunk === true;
         });
         if (shipsSunk) {
-            const winner = this.props.computerBoard ? 'You Win!' : 'Computer Wins'
+            const winner = this.props.computerBoard ? 'You Win!' : 'Computer Wins!'
             return this.props.win(winner);
         }
     }
